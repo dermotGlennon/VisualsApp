@@ -40,6 +40,7 @@ package
 		{
 			// sound analysis
 			/*
+			mcSpectrum = new SpectrumAnalyzer();sss
 			mcSpectrum = new SpectrumAnalyzer();
 			mcSpectrum.x = 3;
 			mcSpectrum.y = 663;
