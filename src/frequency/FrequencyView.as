@@ -36,9 +36,10 @@ package frequency
         private var barArr:Array;
         private var mSpectrumH:Number;
         private var mSpectrumW:Number;
-
-        /*private var mSpectrumTop:Number;
-        private var mSpectrumLeft:Number;*/
+        /*private var mLowAvrg:Number;
+        private var mMidAvrg:Number;
+        private var mHighAvrg:Number;
+        private var mBeatAvrg:Number;*/
         
         /////////////////////
         //// STATIC VARS ////
@@ -51,25 +52,28 @@ package frequency
            
             super();
         }
+        
         public function Init(FreqViewModel:FrequencyViewModel, SpectrumHeight:Number, SpectrumWidth:Number):void
         {
-             mViewModel      = FreqViewModel;
+            mViewModel      = FreqViewModel;
             mSpectrumH      = SpectrumHeight;
             mSpectrumW      = SpectrumWidth;
-  
-            
             transformTool   = new TransformTool(new ControlSetScaleCorners());
             addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
         }
         
+        /*public function StageHit(e:MouseEvent):void
+        {
+           /* trace("MOUSE_EVENT");
+            transformTool.deselect();
+        }*/
         private function onAddedToStage(e:Event):void
         {
             trace("FrequencyView.onAddedToStage()");
-            //txtLabel.text = "";
-            mcLowFreq   = new FreqBar( { Id:"Low", Height:160, Width:276,  X:10, Y:78, Alpha:.2, childUseMouse:false,  Color:0xff0000 } ); 
-            mcMidFreq   = new FreqBar( { Id:"Mid", Height:146, Width:325, X:248, Y:92, Alpha:.2,childUseMouse:false,  Color:0x00ff00 } ); 
-            mcHighFreq  = new FreqBar( { Id:"High", Height:97, Width:256, X:535, Y:137, Alpha:.2, childUseMouse:false, Color:0x0000ff } );
-            mcBeatBar   = new FreqBar( { Id:"Beat", Height:100, Width:793,  X:5, Y:20, Alpha:.2, childUseMouse:false, Color:0xffffff } );
+            mcLowFreq   = new FreqBar( { Id:"Low", Height:160, Width:276,  X:10, Y:235, Alpha:.2, childUseMouse:false,  Color:0xff0000, SpectrumHeight:mSpectrumH } ); 
+            mcMidFreq   = new FreqBar( { Id:"Mid", Height:146, Width:325, X:248, Y:235, Alpha:.2,childUseMouse:false,  Color:0x00ff00, SpectrumHeight:mSpectrumH } ); 
+            mcHighFreq  = new FreqBar( { Id:"High", Height:97, Width:256, X:535, Y:235, Alpha:.2, childUseMouse:false, Color:0x00ffff, SpectrumHeight:mSpectrumH } );
+            mcBeatBar   = new FreqBar( { Id:"Beat", Height:100, Width:793,  X:5, Y:120, Alpha:.2, childUseMouse:false, Color:0xffffff, SpectrumHeight:mSpectrumH } );
             barArr      = [mcLowFreq, mcMidFreq, mcHighFreq, mcBeatBar];
             
             //set up the transform tool
@@ -89,13 +93,15 @@ package frequency
             addChild(transformTool);
             
             // add/remove listeners
-            mViewModel.addEventListener(FrequencyViewModel.UPDATE_SPECTRUM, _DrawSpectrum);
+            mViewModel.addEventListener(FrequencyViewModel.UPDATE_SPECTRUM, _AudioData);
+            
+            //
             transformTool.addEventListener(TransformTool.TRANSFORM_CHANGED,_BarTransforming);
-            stage.addEventListener(MouseEvent.MOUSE_DOWN, transformTool.deselect);
+            stage.addEventListener(MouseEvent.MOUSE_UP, transformTool.deselect);
+            //addEventListener(MouseEvent.MOUSE_UP, StageHit);
             addEventListener(MouseEvent.MOUSE_DOWN, transformTool.select);
             
             removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
-            
             _SetInitialBarVals();//TODO get from xml 
         }
         
@@ -150,14 +156,29 @@ package frequency
             }*/
         }
         
-        private function _DrawSpectrum(e:Event):void
+        private function _AudioData(e:Event)
+        {
+            /*mLowAvrg    = mViewModel.lSum;
+            mMidAvrg    = mViewModel.mSum;
+            mHighAvrg   = mViewModel.hSum;
+            mBeatAvrg   = mViewModel.bSum;*/
+           // trace(mLowAvrg);
+            mcLowFreq.DrawFill(mViewModel.lSum);
+            mcMidFreq.DrawFill(mViewModel.mSum);
+            mcHighFreq.DrawFill(mViewModel.hSum);
+            mcBeatBar.DrawFill(mViewModel.bSum);
+            _SpectrumUpdate();
+        }
+        
+        private function _SpectrumUpdate():void
         {
             if (mViewModel.mag && mViewModel.freq == null) 
             {
                 return;
             }
-            mMag     = mViewModel.mag;
-            mFreq    = mViewModel.freq;
+            mMag        = mViewModel.mag;
+            mFreq       = mViewModel.freq;
+           
             // Basic constants
             const MIN_FREQ:Number   = 10;// Minimum frequency (Hz) on horizontal axis.
             const MAX_FREQ:Number   = 4000;// Maximum frequency (Hz) on horizontal axis.

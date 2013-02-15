@@ -28,7 +28,7 @@ package style
 
         public static const FONT_UNDERLINE:Boolean          = false
         public static const BASE_FORMAT:TextFormat          = new TextFormat(BASE_FONT, FONT_BASE_SIZE, BASE_TEXT_COLOUR);
-        public static const BASE_HOT_FORMAT:TextFormat      = new TextFormat(BASE_FONT, FONT_BASE_SIZE, BASE_TEXT_HOT_COLOUR, null, null, null);
+        public static const BASE_HOT_FORMAT:TextFormat      = new TextFormat(BASE_FONT, FONT_BASE_SIZE, BASE_TEXT_HOT_COLOUR);
  
     }
 }

@@ -142,7 +142,7 @@ package frequency
             this["m" + s + "PointArr"][1] = bL;
             this["m" + s + "PointArr"][2] = tR;
             this["m" + s + "PointArr"][3] = bR; 
-            _SumFreq();
+            _SumFreq(s);
         }
         private function onMicSampleData( event:SampleDataEvent ):void
         {
@@ -197,25 +197,27 @@ package frequency
             }
             mViewModel.mag  =    m_mag;
             mViewModel.freq =   m_freq;
-            //mViewModel.mSum =    
-            _SumFreq();
+            mViewModel.lSum =   _SumFreq("Low");
+            mViewModel.mSum =   _SumFreq("Mid");
+            mViewModel.hSum =   _SumFreq("High");
+            mViewModel.bSum =   _SumFreq("Beat");
         }
-        private function _SumFreq():void
+        
+        //average out the magnitudes
+        private function _SumFreq(F:String):Number
         {
-            var lRawVal:Number = mLowPointArr[0][0];
-            var rRawVal:Number = mLowPointArr[2][0];
-            //trace("lVal:" + lVal + " rVal:" + rVal);
-            //trace("lRawVal:" + (lVal * mFreqWidthInc) + " rRawVal:" + (rVal * mFreqWidthInc));
-           var lX:Number = (lRawVal > 0) ? Math.round(lRawVal * mFreqWidthInc):0;
-           var rX:Number = ((rRawVal * mFreqWidthInc) < 1024) ? Math.round(rRawVal * mFreqWidthInc):1024;
-           var add:Number = 0;
-           for (var i:int = lX; i < rX; i++) 
-           {
+            var pArr:Array = this["m" + F + "PointArr"];
+            var lRawVal:Number = pArr[0][0];
+            var rRawVal:Number = pArr[2][0];
+            var lX:Number = (lRawVal > 0) ? lRawVal * mFreqWidthInc:0;
+            var rX:Number = ((rRawVal * mFreqWidthInc) < 1024) ? rRawVal * mFreqWidthInc:1024;
+            var add:Number = 0;
+            for (var i:int = lX; i < rX; i++) 
+            {
                 add += m_mag[i];
-           }
-           var sum:Number = Math.round((DB_OFFSET + add / (rX - lX)) * DB_INC);
-           trace(sum);
-           //trace("lX:" + lX+" rRawVal:" + rRawVal+" rX:" + rX);
+            }
+            
+            return add / (rX - lX);
         }
     }
 }
