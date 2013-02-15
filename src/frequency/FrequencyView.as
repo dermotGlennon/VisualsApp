@@ -72,7 +72,7 @@ package frequency
             trace("FrequencyView.onAddedToStage()");
             mcLowFreq   = new FreqBar( { Id:"Low", Height:160, Width:276,  X:10, Y:235, Alpha:.2, childUseMouse:false,  Color:0xff0000, SpectrumHeight:mSpectrumH } ); 
             mcMidFreq   = new FreqBar( { Id:"Mid", Height:146, Width:325, X:248, Y:235, Alpha:.2,childUseMouse:false,  Color:0x00ff00, SpectrumHeight:mSpectrumH } ); 
-            mcHighFreq  = new FreqBar( { Id:"High", Height:97, Width:256, X:535, Y:235, Alpha:.2, childUseMouse:false, Color:0x00ffff, SpectrumHeight:mSpectrumH } );
+            mcHighFreq  = new FreqBar( { Id:"High", Height:97, Width:200, X:200, Y:200, Alpha:.2, childUseMouse:false, Color:0x00ffff, SpectrumHeight:mSpectrumH } );
             mcBeatBar   = new FreqBar( { Id:"Beat", Height:100, Width:793,  X:5, Y:120, Alpha:.2, childUseMouse:false, Color:0xffffff, SpectrumHeight:mSpectrumH } );
             barArr      = [mcLowFreq, mcMidFreq, mcHighFreq, mcBeatBar];
             
@@ -145,7 +145,7 @@ package frequency
             if (mc.y < 0) 
             {
                 trace("out Top");
-                mc.y = 2;
+                mc.y = 2; 
                 transformTool.deselect(e);
             }
             else if (mc.y + mcHeight > mSpectrumH) 
@@ -156,7 +156,7 @@ package frequency
             }*/
         }
         
-        private function _AudioData(e:Event)
+        private function _AudioData(e:Event):void
         {
             /*mLowAvrg    = mViewModel.lSum;
             mMidAvrg    = mViewModel.mSum;
