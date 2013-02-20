@@ -82,7 +82,8 @@ package frequency
         /////////////////////
         //// STATIC VARS ////
         /////////////////////    
-        
+        private static var MAX_DB:Number     = -0.0
+        private static var MIN_DB:Number     = -60;
 
         public function FrequencyModel()
         {
@@ -168,7 +169,6 @@ package frequency
             var i:int;
             var pos:uint = m_writePos;
             for ( i = 0; i < N; i++ )                                                     
-            
             {
                 m_tempRe[i] = m_win[i]*m_buf[pos];
                 pos = (pos+1)%BUF_LEN;
@@ -197,10 +197,20 @@ package frequency
             }
             mViewModel.mag  =    m_mag;
             mViewModel.freq =   m_freq;
+            mViewModel.lH   = mLowPointArr[2][1];
+           //
+            mViewModel.mH   = mMidPointArr[2][1];
+            mViewModel.hH   = mHighPointArr[2][1];
+            mViewModel.bH   = mBeatPointArr[2][1];
             mViewModel.lSum =   _SumFreq("Low");
             mViewModel.mSum =   _SumFreq("Mid");
             mViewModel.hSum =   _SumFreq("High");
+            mViewModel.height =   _SumFreq("High");
             mViewModel.bSum =   _SumFreq("Beat");
+           //trace(mHighPointArr[2][1]);
+            //trace("lSum:" + Math.round(mViewModel.lSum)+" mSum:" + Math.round(mViewModel.mSum)+" hSum:" + Math.round(mViewModel.hSum));
+            //trace("lRawVal:" + mHighPointArr[0][0]);
+            //trace("rRawVal:"+mHighPointArr[3][0])
         }
         
         //average out the magnitudes
@@ -208,15 +218,31 @@ package frequency
         {
             var pArr:Array = this["m" + F + "PointArr"];
             var lRawVal:Number = pArr[0][0];
-            var rRawVal:Number = pArr[2][0];
+            var rRawVal:Number = pArr[3][0];
+           
             var lX:Number = (lRawVal > 0) ? lRawVal * mFreqWidthInc:0;
-            var rX:Number = ((rRawVal * mFreqWidthInc) < 1024) ? rRawVal * mFreqWidthInc:1024;
+            var rX:Number = ((rRawVal * mFreqWidthInc) < 1024) ? (rRawVal * mFreqWidthInc):1024;
             var add:Number = 0;
-            for (var i:int = lX; i < rX; i++) 
+            //trace("lX:"+Math.round(lX)+" rX:"+Math.round(rX));
+            //trace("m_mag.length:"+m_mag.length);
+            for (var i:int = Math.round(lX); i < Math.round(rX); i++) 
             {
-                add += m_mag[i];
+                var oSum:Number = m_mag[i];
+                var cSum:Number;
+                if (oSum < MIN_DB) 
+                {
+                    
+                    cSum = MIN_DB;
+                   
+                }
+               
+                else 
+                {
+                     cSum = oSum;
+                }
+                add += cSum;
             }
-            
+           // trace("add:"+add / (rX - lX));
             return add / (rX - lX);
         }
     }

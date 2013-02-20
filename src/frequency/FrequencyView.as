@@ -70,11 +70,11 @@ package frequency
         private function onAddedToStage(e:Event):void
         {
             trace("FrequencyView.onAddedToStage()");
-            mcLowFreq   = new FreqBar( { Id:"Low", Height:160, Width:276,  X:10, Y:235, Alpha:.2, childUseMouse:false,  Color:0xff0000, SpectrumHeight:mSpectrumH } ); 
-            mcMidFreq   = new FreqBar( { Id:"Mid", Height:146, Width:325, X:248, Y:235, Alpha:.2,childUseMouse:false,  Color:0x00ff00, SpectrumHeight:mSpectrumH } ); 
-            mcHighFreq  = new FreqBar( { Id:"High", Height:97, Width:200, X:200, Y:200, Alpha:.2, childUseMouse:false, Color:0x00ffff, SpectrumHeight:mSpectrumH } );
-            mcBeatBar   = new FreqBar( { Id:"Beat", Height:100, Width:793,  X:5, Y:120, Alpha:.2, childUseMouse:false, Color:0xffffff, SpectrumHeight:mSpectrumH } );
-            barArr      = [mcLowFreq, mcMidFreq, mcHighFreq, mcBeatBar];
+            mcLowFreq   = new FreqBar( { Id:"Low", Height:160, Width:264,  X:1, Y:235, Alpha:.2, childUseMouse:false,  Color:0xff0000, SpectrumHeight:mSpectrumH } ); 
+            mcMidFreq   = new FreqBar( { Id:"Mid", Height:160, Width:264, X:266, Y:235, Alpha:.2,childUseMouse:false,  Color:0x00ff00, SpectrumHeight:mSpectrumH } ); 
+            mcHighFreq  = new FreqBar( { Id:"High", Height:160, Width:264, X:534, Y:235, Alpha:.2, childUseMouse:false, Color:0x00ffff, SpectrumHeight:mSpectrumH } );
+           mcBeatBar   = new FreqBar( { Id:"Beat", Height:100, Width:793,  X:5, Y:0, Alpha:.2, childUseMouse:false, Color:0xffffff, SpectrumHeight:mSpectrumH } );
+           barArr      = [mcLowFreq, mcMidFreq, mcHighFreq, mcBeatBar];
             
             //set up the transform tool
             transformTool.addChild(new ControlReset());
@@ -107,10 +107,11 @@ package frequency
         
         private function _BarTransforming(e:Event):void
         {
+            //trace("BARTRANSFORMING");
             var mc:MovieClip = e.target.target;
             //limitStageBorder(mc, e);
-            //trace(mc.id + " :" + mc.width);
-            mViewModel.setRangeValue(  mc.id, mc.x, mc.y, mc.height, mc.width   );
+            //trace(mc.id + " :" + mc.height);
+            mViewModel.setRangeValue(  mc.id, mc.x, mc.y, mc.height, mc.width );
             
         }
      
@@ -158,15 +159,10 @@ package frequency
         
         private function _AudioData(e:Event):void
         {
-            /*mLowAvrg    = mViewModel.lSum;
-            mMidAvrg    = mViewModel.mSum;
-            mHighAvrg   = mViewModel.hSum;
-            mBeatAvrg   = mViewModel.bSum;*/
-           // trace(mLowAvrg);
-            mcLowFreq.DrawFill(mViewModel.lSum);
-            mcMidFreq.DrawFill(mViewModel.mSum);
-            mcHighFreq.DrawFill(mViewModel.hSum);
-            mcBeatBar.DrawFill(mViewModel.bSum);
+            mcLowFreq.DrawFill(mViewModel.lSum, mViewModel.lH);
+            mcMidFreq.DrawFill(mViewModel.mSum, mViewModel.mH);
+            mcHighFreq.DrawFill(mViewModel.hSum, mViewModel.hH);
+            mcBeatBar.DrawFill(mViewModel.bSum, mViewModel.bH);
             _SpectrumUpdate();
         }
         

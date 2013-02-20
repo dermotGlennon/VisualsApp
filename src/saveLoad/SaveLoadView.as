@@ -32,8 +32,8 @@ package saveLoad
         }
         private function _LayOut():void
         {
-            //_saveLoad_freq.y = 634;
-           // _saveLoad_freq.x = 2;
+            _saveLoad_freq.y = 634;
+            _saveLoad_freq.x = 2;
             addChild(_saveLoad_freq);
         }
     }
