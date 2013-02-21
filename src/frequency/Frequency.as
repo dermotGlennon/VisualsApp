@@ -32,7 +32,7 @@
         //// STATIC VARS ////
         /////////////////////
         private static var SPECTRUM_HEIGHT:Number   = 240;
-        private static var SPECTRUM_WIDTH:Number    = 800;
+        private static var SPECTRUM_WIDTH:Number    = 1024;
         private static var CONTROLBUTTONS:Array    = [
             { Display:"U->", ID:"LowUp", isButton:true }, 
             { Display:"50", ID:"LowVal", ColdFormat:FontStyle.LOW_TEXT_FORMAT },

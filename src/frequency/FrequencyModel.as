@@ -82,7 +82,7 @@ package frequency
         /////////////////////
         //// STATIC VARS ////
         /////////////////////    
-        private static var MAX_DB:Number     = -0.0
+        private static var MAX_DB:Number     = 0
         private static var MIN_DB:Number     = -60;
 
         public function FrequencyModel()
@@ -96,7 +96,7 @@ package frequency
             mViewModel      = FreqViewModel;
             mSpecHeight     = h;
             mSpecWidth      = w;
-            mFreqWidthInc     = 1024 / w;
+            mFreqWidthInc   = 1024 / w;
             
             var i:uint;
             
@@ -225,25 +225,25 @@ package frequency
             var add:Number = 0;
             //trace("lX:"+Math.round(lX)+" rX:"+Math.round(rX));
             //trace("m_mag.length:"+m_mag.length);
+			var entryCount:Number = 0;
             for (var i:int = Math.round(lX); i < Math.round(rX); i++) 
             {
                 var oSum:Number = m_mag[i];
                 var cSum:Number;
                 if (oSum < MIN_DB) 
                 {
-                    
                     cSum = MIN_DB;
-                   
                 }
-               
                 else 
                 {
                      cSum = oSum;
+					 entryCount++;
+					 add += cSum;
                 }
-                add += cSum;
+                
             }
            // trace("add:"+add / (rX - lX));
-            return add / (rX - lX);
+            return add / entryCount;
         }
     }
 }
