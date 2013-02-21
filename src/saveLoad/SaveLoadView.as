@@ -1,6 +1,7 @@
 package saveLoad
 {
     import components.HorizTextButtons;
+    import flash.events.Event;
     import org.casalib.display.CasaSprite;
     import saveLoad.SaveLoadViewModel;
     
@@ -12,12 +13,12 @@ package saveLoad
         /////////////////////
         //// INSTANCES //////
         /////////////////////
-        private var _saveLoad_freq:HorizTextButtons;
+        private var htb_freq:HorizTextButtons;
         
         /////////////////////   
         //// MEMBER VARS ////
         /////////////////////
-        private var mViewModel:SaveLoadViewModel;
+        private var m_vm:SaveLoadViewModel;
         
         
         /////////////////////
@@ -25,16 +26,29 @@ package saveLoad
         /////////////////////
         public function SaveLoadView(ViewModel:SaveLoadViewModel)
         {
-            mViewModel = ViewModel;
+            m_vm = ViewModel;
 
-            _saveLoad_freq = new HorizTextButtons( {ButtonArr:[ {Display:"RESET", ID:"reset"},{Display:"new", ID:"new"}, {Display:"open", ID:"open"}, {Display:"save", ID:"save"}]});
+            htb_freq = new HorizTextButtons( 
+            { ButtonArr:[ 
+            { Display:"RESET", ID:"reset", isButton:true }, 
+            { Display:"/" },
+            {Display:"new", ID:"new", isButton:true }, 
+            { Display:"/" }, 
+            {Display:"open", ID:"open", isButton:true }, 
+            { Display:"/" },  
+            {Display:"save", ID:"save", isButton:true } ] } );
+            htb_freq.addEventListener(HorizTextButtons.BUTTON_HIT, _BtnHit);
             _LayOut();
         }
         private function _LayOut():void
         {
-            _saveLoad_freq.y = 634;
-            _saveLoad_freq.x = 2;
-            addChild(_saveLoad_freq);
+            htb_freq.y = 634;
+            htb_freq.x = 2;
+            addChild(htb_freq);
+        }
+        private function _BtnHit(e:Event):void
+        {
+            trace("saveLoadButtonHit:"+e.currentTarget.bttnHit);
         }
     }
 }

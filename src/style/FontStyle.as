@@ -19,6 +19,12 @@ package style
         public static const BASE_TEXT_COLOUR:int         = 0xFFFFFF;
         public static const BASE_TEXT_HOT_COLOUR:int     = 0xFF0000;
         
+        public static const LOW_COLOUR:int  = 0xff0000;
+        public static const MID_COLOUR:int  = 0x00ff00;
+        public static const HIGH_COLOUR:int = 0x00ffff;
+        public static const BEAT_COLOUR:int = 0xffffff;
+        
+        
         public static const FONT_BOX_COLD_COLOR:Number      = 0X666666;
         public static const FONT_BOX_HOT_COLOR:Number       = 0X000000;
         public static const FONT_BOX_ALPHA:Number           = 1;
@@ -29,6 +35,12 @@ package style
         public static const FONT_UNDERLINE:Boolean          = false
         public static const BASE_FORMAT:TextFormat          = new TextFormat(BASE_FONT, FONT_BASE_SIZE, BASE_TEXT_COLOUR);
         public static const BASE_HOT_FORMAT:TextFormat      = new TextFormat(BASE_FONT, FONT_BASE_SIZE, BASE_TEXT_HOT_COLOUR);
+        
+        //LOW MID HIGH BEAT freq colors
+        public static const LOW_TEXT_FORMAT:TextFormat      = new TextFormat(BASE_FONT, FONT_BASE_SIZE, LOW_COLOUR);
+        public static const MID_TEXT_FORMAT:TextFormat      = new TextFormat(BASE_FONT, FONT_BASE_SIZE, MID_COLOUR);
+        public static const HIGH_TEXT_FORMAT:TextFormat      = new TextFormat(BASE_FONT, FONT_BASE_SIZE, HIGH_COLOUR);
+        public static const BEAT_TEXT_FORMAT:TextFormat      = new TextFormat(BASE_FONT, FONT_BASE_SIZE, BEAT_COLOUR);
  
     }
 }
