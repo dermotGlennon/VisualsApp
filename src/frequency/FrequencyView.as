@@ -181,7 +181,7 @@ package frequency
             const MAX_FREQ:Number   = 4000;// Maximum frequency (Hz) on horizontal axis.
             const FREQ_STEP:Number  = 500;// Interval between ticks (Hz) on horizontal axis.
             const MAX_DB:Number     = -0.0;// Maximum dB magnitude on vertical axis.
-            const MIN_DB:Number     = -60.0;// Minimum dB magnitude on vertical axis.
+            const MIN_DB:Number     = -70.0;// Minimum dB magnitude on vertical axis.
             const DB_STEP:Number    = 10;// Interval between ticks (dB) on vertical axis.
             const TOP:Number        = 0;// Top of graph
             const LEFT:Number       = 0;// Left edge of graph

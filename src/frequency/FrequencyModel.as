@@ -82,8 +82,8 @@ package frequency
         /////////////////////
         //// STATIC VARS ////
         /////////////////////    
-        private static var MAX_DB:Number     = 0
-        private static var MIN_DB:Number     = -60;
+        private static var MAX_DB:Number     = -0.0
+        private static var MIN_DB:Number     = -60.0;
 
         public function FrequencyModel()
         {
@@ -205,9 +205,8 @@ package frequency
             mViewModel.lSum =   _SumFreq("Low");
             mViewModel.mSum =   _SumFreq("Mid");
             mViewModel.hSum =   _SumFreq("High");
-            mViewModel.height =   _SumFreq("High");
             mViewModel.bSum =   _SumFreq("Beat");
-           //trace(mHighPointArr[2][1]);
+   
             //trace("lSum:" + Math.round(mViewModel.lSum)+" mSum:" + Math.round(mViewModel.mSum)+" hSum:" + Math.round(mViewModel.hSum));
             //trace("lRawVal:" + mHighPointArr[0][0]);
             //trace("rRawVal:"+mHighPointArr[3][0])
@@ -220,29 +219,29 @@ package frequency
             var lRawVal:Number = pArr[0][0];
             var rRawVal:Number = pArr[3][0];
            
-            var lX:Number = (lRawVal > 0) ? lRawVal * mFreqWidthInc:0;
-            var rX:Number = ((rRawVal * mFreqWidthInc) < 1024) ? (rRawVal * mFreqWidthInc):1024;
+            var lX:Number = Math.round((lRawVal > 0) ? lRawVal * mFreqWidthInc:0);
+            var rX:Number = Math.round(((rRawVal * mFreqWidthInc) < 1024) ? (rRawVal * mFreqWidthInc):1024);
             var add:Number = 0;
             //trace("lX:"+Math.round(lX)+" rX:"+Math.round(rX));
             //trace("m_mag.length:"+m_mag.length);
 			var entryCount:Number = 0;
-            for (var i:int = Math.round(lX); i < Math.round(rX); i++) 
+            for (var i:int = lX; i < rX; i++) 
             {
                 var oSum:Number = m_mag[i];
-                var cSum:Number;
-                if (oSum < MIN_DB) 
+                if (oSum > MIN_DB) 
                 {
-                    cSum = MIN_DB;
+
+					entryCount++;
+					add += oSum;
                 }
-                else 
-                {
-                     cSum = oSum;
-					 entryCount++;
-					 add += cSum;
-                }
+               
                 
             }
-           // trace("add:"+add / (rX - lX));
+			if (F == "Mid") 
+			{
+				//trace("lX:"+lX +" rX:"+rX);
+				//trace("add:"_
+			}
             return add / entryCount;
         }
     }
